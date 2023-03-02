@@ -3,7 +3,8 @@ const tasks = [];
 // Add Button
 let typeInput = document.querySelector(".type input");
 let tasksContainer = document.querySelector(".tasks");
-let addBtn = document.querySelector(".add");
+const addBtn = document.querySelector(".add");
+const tasksList= document.querySelector('.box');
 
 
 
@@ -14,7 +15,6 @@ addBtn.addEventListener("click", _ => {
     showData();
   }
 });
-
 function showData() {
   tasksContainer.innerHTML = "";
   typeInput.value = "";
@@ -51,14 +51,13 @@ function showData() {
 
 }
 
-{/* <li class="task done">
-            <div class="task-name">sszvsz</div>
-            <div class="btn-container"> 
-              <i class="fa-solid fa-check check"></i>
-              <i class="fa-solid fa-x delete"></i>
-            </div>
-          </li> */}
+const deletFn = function (event) {
+  if(tasks.length >= 1 && event.target.classList.contains('delete')) {
+    const tasksList = document.querySelectorAll('.task');
+    tasks.splice(Array.from(tasksList).indexOf(event.target.closest('li')),1);
+    showData();
+  }
+}
 
 
-
-
+tasksList.addEventListener('click', deletFn)
