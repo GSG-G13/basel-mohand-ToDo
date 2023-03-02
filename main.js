@@ -1,4 +1,8 @@
-const tasks = [];
+let tasks = [];
+
+if(localStorage.getItem('tasks')) {
+  tasks = JSON.parse(localStorage.getItem('tasks'));
+}
 
 // Add Button
 let typeInput = document.querySelector(".type input");
@@ -16,6 +20,7 @@ addBtn.addEventListener("click", _ => {
   }
 });
 function showData() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
   tasksContainer.innerHTML = "";
   typeInput.value = "";
   tasks.forEach(task => {
@@ -48,8 +53,8 @@ function showData() {
     li.appendChild(btnContainer);
     tasksContainer.appendChild(li)
   })
-
 }
+showData();
 
 const deletFn = function (event) {
   if(tasks.length >= 1 && event.target.classList.contains('delete')) {
@@ -58,6 +63,15 @@ const deletFn = function (event) {
     showData();
   }
 }
-
-
 tasksList.addEventListener('click', deletFn)
+
+const checkFn = function (event) {
+  if(tasks.length >= 1 && event.target.classList.contains('check')) {
+    const tasksList = document.querySelectorAll('.task');
+    let index = Array.from(tasksList).indexOf(event.target.closest('li'));
+    tasks[index].isChecked = !tasks[index].isChecked;
+    showData();
+  }
+}
+tasksList.addEventListener('click', checkFn)
+
